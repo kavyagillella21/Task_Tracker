@@ -29,4 +29,17 @@ public class TaskService {
         }
         return taskRepo.save(task);
     }
+
+    public Task getTaskById(Long id)
+    {
+        return taskRepo.findById(id)
+            .orElseThrow(()-> new IllegalArgumentException("Task does not exist "+id));
+    }
+
+    public void deleteById(Long id)
+    {
+        getTaskById(id);
+        taskRepo.deleteById(id);
+
+    }
 }
