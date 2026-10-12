@@ -36,10 +36,9 @@ public class TaskService {
             .orElseThrow(()-> new IllegalArgumentException("Task does not exist "+id));
     }
 
-    public void deleteById(Long id)
+    public void deleteTaskById(Long id)
     {
         getTaskById(id);
         taskRepo.deleteById(id);
-
     }
 }
