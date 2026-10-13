@@ -9,6 +9,9 @@ import com.kavya.tasktracker.service.TaskService;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @RestController 
@@ -25,4 +28,10 @@ public class TaskController {
     public List<Task> getAllTasks() {
         return taskService.getAllTasks();
     }
+
+    @PostMapping
+    public Task createTask(@RequestBody Task task) {
+        return taskService.saveTask(task);
+    }
+    
 }
