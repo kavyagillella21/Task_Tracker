@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.kavya.tasktracker.exception.TaskNotFoundException;
 import com.kavya.tasktracker.model.Task;
 import com.kavya.tasktracker.repository.TaskRepository;
 
@@ -33,7 +34,7 @@ public class TaskService {
     public Task getTaskById(Long id)
     {
         return taskRepo.findById(id)
-            .orElseThrow(()-> new IllegalArgumentException("Task does not exist "+id));
+            .orElseThrow(()-> new TaskNotFoundException(id));
     }
 
     public void deleteTaskById(Long id)
