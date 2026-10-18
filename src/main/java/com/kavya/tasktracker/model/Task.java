@@ -57,7 +57,7 @@ public class Task {
 
     public Task()
     {
-        status = Status.TO_DO;
+        
     }
 
     public Task(String name, String description)

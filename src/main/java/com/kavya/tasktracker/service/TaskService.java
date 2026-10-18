@@ -43,4 +43,16 @@ public class TaskService {
         getTaskById(id);
         taskRepo.deleteById(id);
     }
+
+    public Task editTask(Long id, Task newTask)
+    {
+        Task oldTask = getTaskById(id);
+        oldTask.setName(newTask.getName());
+        oldTask.setDescription(newTask.getDescription());
+        if(newTask.getStatus() != null)
+        {
+            oldTask.setStatus(newTask.getStatus());
+        }
+        return saveTask(oldTask);
+    }
 }
