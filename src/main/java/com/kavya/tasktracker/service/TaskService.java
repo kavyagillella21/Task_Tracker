@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.kavya.tasktracker.exception.InvalidTaskException;
 import com.kavya.tasktracker.exception.TaskNotFoundException;
 import com.kavya.tasktracker.model.Task;
 import com.kavya.tasktracker.repository.TaskRepository;
@@ -26,7 +27,7 @@ public class TaskService {
     {
         if(task.getName() == null || task.getName().isBlank()) 
         {
-            throw new IllegalArgumentException("Enter a Name for task");
+            throw new InvalidTaskException();
         }
         return taskRepo.save(task);
     }
