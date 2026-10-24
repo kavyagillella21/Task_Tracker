@@ -473,14 +473,14 @@
       var raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) {
         return [
-          { id: 't1', text: 'Example task — use To do, Doing or Done on the right', status: 'todo' },
-          { id: 't2', text: 'Another task — hover and press × to delete', status: 'doing' }
+          { id: 't1', name: 'Example task — use To do, Doing or Done on the right', status: 'TO_DO' },
+          { id: 't2', name: 'Another task — hover and press × to delete', status: 'IN_PROGRESS' }
         ];
       }
       var parsed = JSON.parse(raw);
       if (!Array.isArray(parsed)) return [];
       return parsed.map(function (t) {
-        return { id: t.id, text: t.text, status: t.status || (t.done ? 'done' : 'todo') };
+        return { id: t.id, name: t.name, status: t.status || (t.done ? 'DONE' : 'TO_DO') };
       });
     } catch (e) { return []; }
   }
@@ -503,11 +503,11 @@
 
     tasks.forEach(function (t) {
       var row = document.createElement('div');
-      row.className = 'task' + (t.status === 'done' ? ' done' : '');
+      row.className = 'task' + (t.status === 'DONE' ? ' done' : '');
 
       var text = document.createElement('span');
       text.className = 'task-text';
-      text.textContent = t.text;
+      text.textContent = t.name;
       var cut = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       cut.setAttribute('class', 'cut-line');
       cut.setAttribute('viewBox', '0 0 100 20');
@@ -519,7 +519,7 @@
 
       var toggle = document.createElement('div');
       toggle.className = 'status-toggle';
-      ['todo', 'doing', 'done'].forEach(function (s) {
+      ['TO_DO', 'IN_PROGRESS', 'DONE'].forEach(function (s) {
         var lab = document.createElement('label');
         lab.className = 'st' + (t.status === s ? ' on' : '');
         var r = document.createElement('input');
@@ -529,7 +529,7 @@
         r.setAttribute('aria-label', 'Status: ' + s);
         r.addEventListener('change', function () { setStatus(t.id, s); });
         lab.appendChild(r);
-        lab.appendChild(document.createTextNode(s === 'todo' ? 'To do' : (s === 'doing' ? 'Doing' : 'Done')));
+        lab.appendChild(document.createTextNode(s === 'TO_DO' ? 'To do' : (s === 'IN_PROGRESS' ? 'Doing' : 'Done')));
         toggle.appendChild(lab);
       });
 
@@ -545,7 +545,7 @@
       listEl.appendChild(row);
     });
 
-    var doneCount = tasks.filter(function (t) { return t.status === 'done'; }).length;
+    var doneCount = tasks.filter(function (t) { return t.status === 'DONE'; }).length;
     var total = tasks.length;
     statsEl.style.display = total ? 'flex' : 'none';
     statTextEl.textContent = doneCount + ' of ' + total + ' done';
@@ -555,7 +555,7 @@
   function add() {
     var text = inputEl.value.trim();
     if (!text) return;
-    tasks.unshift({ id: uid(), text: text, status: 'todo' });
+    tasks.unshift({ id: uid(), name: text, status: 'TO_DO' });
     inputEl.value = '';
     save();
     render();
