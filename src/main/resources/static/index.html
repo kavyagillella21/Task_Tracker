@@ -460,7 +460,11 @@
 (function () {
   var STORAGE_KEY = 'tasktracker-v1';
 
-  var tasks = load();
+  var samples = [{ id: 't1', name: 'Example task — use To do, Doing or Done on the right', status: 'TO_DO' },
+          { id: 't2', name: 'Another task — hover and press × to delete', status: 'IN_PROGRESS' }];
+
+
+  var tasks = [];
 
   var listEl = document.getElementById('list');
   var inputEl = document.getElementById('taskInput');
@@ -491,6 +495,24 @@
 
   function uid() { return 't' + Date.now() + Math.random().toString(36).slice(2, 7); }
 
+  function loadtasks()
+  {
+    fetch('/api/tasks')
+    .then(function(response){ return response.json(); })
+    .then(function (data) {
+    if(data.length===0)
+    {
+      tasks = samples;
+    }
+    else
+    {
+      tasks = data;
+    }
+      render();
+    });
+  }
+  fetch('/api/tasks')
+  .then
   function render() {
     listEl.innerHTML = '';
 
@@ -585,7 +607,7 @@
     render();
   });
 
-  render();
+  loadtasks();
 })();
 </script>
 </body>
