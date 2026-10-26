@@ -577,10 +577,14 @@
   function add() {
     var text = inputEl.value.trim();
     if (!text) return;
-    tasks.unshift({ id: uid(), name: text, status: 'TO_DO' });
     inputEl.value = '';
-    save();
-    render();
+    fetch('/api/tasks', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: text })
+    })
+    .then(function (response) { return response.json(); })
+    .then(function () { loadTasks(); });
   }
 
   function setStatus(id, status) {
